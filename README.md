@@ -16,16 +16,16 @@ And run, you should see something like this:
 { "XNq
 { "event_type": "foo", "data": "lorem", "timestamp": 1564039789 }
 { "event_type": "baz", "data": "ipsum", "timestamp": 1564039789 }
-{ "event_type": "foo", "data": "dolor", "timestamp": 1564039789 }
+{ "event_type": "foo", "data": "dolor ipsum", "timestamp": 1564039789 }
 { "event_type": "foo", "data": "lorem", "timestamp": 1564039789 }
 ```
 
 Service Requirements
 
 * It should consume the output of the generator and gather the following stats:
-    * A count of events by event type.
-    * Aggregate count of words appearances (found in each event in the data field of the events. (e.g. ```"the" → 32, "me" → 5```)
-    * It should expose these stats in an HTTP interface.
+* A count of events by event type `{ "foo": 3, "baz": 1 }`
+* A count of words appearances, found in each event in the data field of the events `{ "lorem": 2, "dolor": 1, "ipsum": 2 }`
+* It should expose these stats in an HTTP interface.
 * Stream may encounter corrupt JSON lines and should handle such events well and without interruption.
 
 # HTTP API Spec
