@@ -3,9 +3,10 @@
 
 # The Position
 - Backend Engineer: check out the [backend-engineer](https://github.com/bigpandaio/challenge/tree/backend-engineer) branch of this repository.
+- Sr. DevOps Engineer: check out the [sr-devops-engineer](https://github.com/bigpandaio/challenge/tree/sr-devops-engineer) branch of this repository.
 
 # How do I submit my task?
 - Fork this repository.
-- Check out the backend-engineer branch
+- Check out the relevant branch branch
 - Commit your work.
 - Submit a pull request against this upstream repository.
