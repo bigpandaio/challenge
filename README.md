@@ -7,6 +7,6 @@
 
 # How do I submit my task?
 - Fork this repository.
-- Check out the relevant branch branch
+- Check out the relevant branch.
 - Commit your work.
 - Submit a pull request against this upstream repository.
