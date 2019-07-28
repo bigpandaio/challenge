@@ -42,3 +42,7 @@ by step explanation from the `git clone` until the `running sample`.
 
 - Fork this repo
 - Submit a PR
+
+OR
+
+If you need to be discrete, send a mail to [challenge@bigpanda.io](mailto:challenge@bigpanda.io).
