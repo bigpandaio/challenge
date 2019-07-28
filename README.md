@@ -10,3 +10,7 @@
 - Check out the relevant branch.
 - Commit your work.
 - Submit a pull request against this upstream repository.
+
+OR
+
+If you need to be discrete, send a mail to [challenge@bigpanda.io](mailto:challenge@bigpanda.io).
