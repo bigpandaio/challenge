@@ -57,6 +57,10 @@ Service Requirements
 
 # Task Submission
 
-- Fork this repo
+- Fork this repo 
 - Submit a PR against this repo
 - Once done ,Fill out your details [here](https://www.comeet.co/jobs/bigpanda/21.009/senior-backend-engineer/C7.706) and add the github link in the notes. 
+
+# Discrete Task Submission
+
+- Skip the fork & pr steps and submit a link to your code in the notes [here](https://www.comeet.co/jobs/bigpanda/21.009/senior-backend-engineer/C7.706)
