@@ -50,9 +50,9 @@ Service Requirements
 
 * We are looking for simple readable code which is not over-engineered.
 * The design of your solution should decouple the reads from the writes. Try to think on what it means when scaling such a service.
-* You can implement this exercise in any language.
+* You can implement this exercise in any __typed__ language.
+* (Optional/Bonus) Use a purely functional language (Scala/Haskell/Purescript/...)
 * If you already know some reactive framework (*For example:* RXJava, RxScala, Play, Akka, VertX, Reactor or anything similar) use what you know! if you don't know any of these frameworks read a bit and understand what your implementation can benefit from these proposed frameworks.
-* (Optional) For bonus points: Submit using a purely functional language (Scala/Haskell/Purescript/...)
 * Add a README file  with instructions on running the project. In the README file, please note *3 things* you would improve in your submission.
 
 # Task Submission
