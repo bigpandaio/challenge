@@ -1,0 +1,6 @@
+# cabal
+dist/
+dist-newstyle/
+
+# stack
+.stack-work/
