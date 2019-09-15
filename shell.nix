@@ -1,8 +1,7 @@
-{ pkgs ? import <nixpkgs> {}
-}:
+let pkgs = import ./nix/nixpkgs.nix; in
 
 pkgs.mkShell {
-  buildInputs = with import ./default.nix { inherit pkgs; }; [
+  buildInputs = with import ./default.nix; [
     generator
     solution
   ];
