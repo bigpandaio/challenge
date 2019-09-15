@@ -1,7 +1,3 @@
-{-# LANGUAGE DataKinds     #-}
-{-# LANGUAGE TypeOperators #-}
-
-
 module Main where
 
 
@@ -34,16 +30,11 @@ import Network.Wai.Handler.Warp
   , setBeforeMainLoop
   , setPort
   )
-import Servant ((:<|>)((:<|>)), (:>), Get, JSON, Proxy(Proxy), Server, serve)
+import Servant ((:<|>)((:<|>)), Server, serve)
 import System.IO (Handle, stdin)
 
-import Model
-  ( Event
-  , EventCount
-  , Stats(statsEvents, statsWords)
-  , WordCount
-  , applyEvent
-  )
+import Api (ChallengeAPI, challengeAPI)
+import Model (Event, Stats(statsEvents, statsWords), applyEvent)
 
 
 producer :: Handle -> TQueue Event -> IO ()
@@ -59,17 +50,6 @@ consumer f queue var = do
   e <- atomically $ readTQueue queue
   _ <- atomically $ modifyTVar' var (f e)
   consumer f queue var
-
-
-type ChallengeAPI
-    =  "events" :>
-          (  "countByEventType" :> Get '[JSON] EventCount
-        :<|> "countWords" :> Get '[JSON] WordCount
-          )
-
-
-challengeAPI :: Proxy ChallengeAPI
-challengeAPI = Proxy
 
 
 server :: TVar Stats -> Server ChallengeAPI
@@ -88,11 +68,10 @@ main = do
   _ <- forkIO $ producer stdin queue
   _ <- forkIO $ consumer applyEvent queue stats
 
-  let port = 8000
   let
+    port = 8000
     settings = defaultSettings
       & setPort port
       & setBeforeMainLoop (putStrLn $ "Running http://localhost:" ++ show port)
 
   runSettings settings $ serve challengeAPI (server stats)
-

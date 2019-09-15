@@ -30,4 +30,5 @@ executable solution
     Main.hs
 
   other-modules:
-    Model
+    Api
+    , Model
