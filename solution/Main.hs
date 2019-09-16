@@ -18,9 +18,10 @@ import Control.Concurrent.STM
   , newTQueueIO
   , newTVarIO
   , readTQueue
-  , readTVar
+  , readTVarIO
   , writeTQueue
   )
+import Control.Monad (forever)
 import Control.Monad.Trans (liftIO)
 import Data.Aeson (decodeStrict)
 import Data.Function ((&))
@@ -46,18 +47,18 @@ producer input queue =
 
 
 consumer :: (event -> stats -> stats) -> TQueue event -> TVar stats -> IO ()
-consumer f queue var = do
-  e <- atomically $ readTQueue queue
-  _ <- atomically $ modifyTVar' var (f e)
-  consumer f queue var
+consumer f queue var =
+  forever $ do 
+    e <- atomically $ readTQueue queue
+    atomically $ modifyTVar' var (f e)
 
 
 server :: TVar Stats -> Server ChallengeAPI
 server stats
-    =  statsEvents <$> getStats
-  :<|> statsWords  <$> getStats
+    =  (statsEvents <$> getStats)
+  :<|> (statsWords  <$> getStats)
   where
-    getStats = liftIO $ atomically $ readTVar stats
+    getStats = liftIO $ readTVarIO stats
 
 
 main :: IO ()

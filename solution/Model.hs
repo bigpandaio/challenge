@@ -3,20 +3,20 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings          #-}
 {-# LANGUAGE RecordWildCards            #-}
+{-# LANGUAGE TypeApplications           #-}
 
 
 module Model
   ( Event
   , EventType
   , UniqueWord
+  , Histogram
   , Stats(statsEvents, statsWords)
-  , WordCount
-  , EventCount
   , applyEvent
   ) where
 
 
-import Data.Aeson (FromJSON(parseJSON), ToJSONKey, (.:), withObject)
+import Data.Aeson (FromJSON(parseJSON), ToJSON, ToJSONKey, (.:), withObject)
 import Data.Coerce (coerce)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
@@ -51,32 +51,45 @@ newtype UniqueWord =
   deriving newtype (Eq, Ord, ToJSONKey)
 
 
+newtype Histogram a =
+  Histogram (Map a Int)
+  deriving newtype (ToJSON)
+
+
+instance Ord a => Semigroup (Histogram a) where
+  Histogram m <> Histogram m' = Histogram $ Map.unionWith (+) m m'
+
+
+instance Ord a => Monoid (Histogram a) where
+  mempty = Histogram mempty
+
+
+singletonHistogram :: a -> Histogram a
+singletonHistogram = Histogram . (`Map.singleton` 1)
+
+
 data Stats =
   Stats
-    { statsEvents :: !EventCount
-    , statsWords  :: !WordCount
+    { statsEvents :: !(Histogram EventType)
+    , statsWords  :: !(Histogram UniqueWord)
     }
-
-
-type EventCount = Map EventType  Int
-type WordCount  = Map UniqueWord Int
 
 
 instance Semigroup Stats where
   Stats e w <> Stats e' w' =
-    Stats (Map.unionWith (+) e e') (Map.unionWith (+) w w')
+    Stats (e <> e') (w <> w')
 
 
 instance Monoid Stats where
-  mempty = Stats Map.empty Map.empty
+  mempty = Stats mempty mempty
 
 
 eventToStats :: Event -> Stats
 eventToStats Event{..} = Stats{..}
   where
-    statsEvents = Map.singleton eventType 1
-    statsWords = Map.unionsWith (+) $ (`Map.singleton` 1) <$> allWords
-    allWords = coerce $ Text.words eventData :: [UniqueWord]
+    statsEvents = singletonHistogram eventType
+    statsWords = foldMap singletonHistogram allWords
+    allWords = coerce @_ @[UniqueWord] $ Text.words eventData
 
 
 applyEvent :: Event -> Stats -> Stats

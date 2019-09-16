@@ -10,13 +10,13 @@ module Api
 
 import Servant ((:<|>), (:>), Get, JSON, Proxy(Proxy))
 
-import Model (EventCount, WordCount)
+import Model (EventType, Histogram, UniqueWord)
 
 
 type ChallengeAPI
     =  "events" :>
-          (  "countByEventType" :> Get '[JSON] EventCount
-        :<|> "countWords"       :> Get '[JSON] WordCount
+          (  "countByEventType" :> Get '[JSON] (Histogram EventType)
+        :<|> "countWords"       :> Get '[JSON] (Histogram UniqueWord)
           )
 
 
