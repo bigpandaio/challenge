@@ -4,6 +4,7 @@ version:             0.1.0.0
 author:              Daniel Kirillov
 maintainer:          dkinitiate@gmail.com
 build-type:          Simple
+extra-source-files:  README.md
 
 executable solution
   build-depends:
